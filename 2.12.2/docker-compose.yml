@@ -1,6 +1,4 @@
 ---
-version: '3'
-
 services:
   ocsapplication:
     image: ocsinventory/ocsinventory-docker-image:2.12.2
