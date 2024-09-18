@@ -4,8 +4,8 @@ from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 
 # Path to the directory containing XML files and output directory for PDFs
-xml_directory = '/home/vannaboth/Python/xml_files'
-output_directory = '/home/vannaboth/Python/pdf_output'
+xml_directory = '/home/vannaboth/OCS-Project/Python/xml_files'
+output_directory = '/home/vannaboth/OCS-Project/Python/pdf_output'
 
 # Ensure output directory exists
 os.makedirs(output_directory, exist_ok=True)
@@ -73,21 +73,6 @@ def convert_xml_to_pdf(input_xml, output_pdf):
                     pdf.showPage()
                     pdf.setFont("Helvetica", 12)
                     y_position = height - margin
-
-    # Add QUERY section
-    query_element = root.find('QUERY')
-    if query_element is not None:
-        query_text = query_element.text if query_element.text is not None else "No Query Information"
-        pdf.setFont("Helvetica-Bold", 14)
-        y_position = draw_text(margin, y_position, "QUERY", width - 2 * margin)
-        y_position -= section_spacing  # Space after QUERY title
-        pdf.setFont("Helvetica", 12)
-        y_position = draw_text(margin, y_position, query_text, width - 2 * margin)
-        y_position -= section_spacing  # Space after QUERY content
-        if y_position < margin:
-            pdf.showPage()
-            pdf.setFont("Helvetica", 12)
-            y_position = height - margin
 
     # Save the PDF
     pdf.save()
