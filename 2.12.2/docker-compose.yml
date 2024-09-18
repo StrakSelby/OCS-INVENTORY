@@ -6,6 +6,7 @@ services:
     restart: always
     expose:
       - "80"
+      #-"443"
     volumes:
       - "perlcomdata:/etc/ocsinventory-server"
       - "ocsreportsdata:/usr/share/ocsinventory-reports/ocsreports/extensions"
