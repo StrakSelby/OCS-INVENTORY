@@ -4,8 +4,8 @@ from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 
 # Path to the directory containing XML files and output directory for PDFs
-xml_directory = '/home/vannaboth/OCS-Project/Python/xml_files'
-output_directory = '/home/vannaboth/OCS-Project/Python/pdf_output'
+xml_directory = '/home/OCS-INVENTORY-main/Python/xml_files'
+output_directory = '/home/OCS-INVENTORY-main/Python/pdf_output'
 
 # Ensure output directory exists
 os.makedirs(output_directory, exist_ok=True)
@@ -55,25 +55,40 @@ def convert_xml_to_pdf(input_xml, output_pdf):
     pdf.drawString(margin, y_position, title)
     y_position -= (line_height + section_spacing)  # Space after title
 
-    # Process CONTENT section
-    content_element = root.find('CONTENT')
-    if content_element is not None:
-        for section in content_element:
-            section_title = section.tag
-            pdf.setFont("Helvetica-Bold", 14)
-            y_position = draw_text(margin, y_position, section_title, width - 2 * margin)
-            y_position -= section_spacing  # Space after section title
-            pdf.setFont("Helvetica", 12)
-            for child in section:
-                child_title = child.tag
-                child_text = child.text if child.text is not None else "No Content"
-                y_position = draw_text(margin, y_position, f"{child_title}: {child_text}", width - 2 * margin)
-                y_position -= section_spacing  # Space after each item
-                if y_position < margin:
-                    pdf.showPage()
-                    pdf.setFont("Helvetica", 12)
-                    y_position = height - margin
+    fields = [
+    'BATTERIES', 'BIOS', 'CPUS', 'SOUNDS',
+    'STORAGES', 'VIDEOS' , 'HARDWARE'
+    ]
 
+    content_element = root.find("CONTENT")
+
+    for field in fields:
+        content_field = content_element.find(field)
+        #print(f"Looking for field: {field}, Found: {content_element is not None}")
+        if content_element is not None:
+            for section in content_element:
+                section_title = section.tag
+                pdf.setFont("Helvetica-Bold", 14)
+                y_position = draw_text(margin, y_position, section_title, width - 2 * margin)
+                y_position -= section_spacing  # Space after section title
+                pdf.setFont("Helvetica", 12)
+
+                for section in content_field:
+                    section_title = section.tag
+                    section_content = section.text.strip() if section.text is not None else "No Content"
+                    y_position = draw_text(margin, y_position, f"{section_title}: {section_content}", width - 2 * margin)
+                    y_position -= section_spacing
+                
+
+                for child in section:
+                    child_title = child.tag
+                    child_text = child.text if child.text is not None else "No Content"
+                    y_position = draw_text(margin, y_position, f"{child_title}: {child_text}", width - 2 * margin)
+                    y_position -= section_spacing  # Space after each item
+                    if y_position < margin:
+                        pdf.showPage()
+                        pdf.setFont("Helvetica", 12)
+                        y_position = height - margin
     # Save the PDF
     pdf.save()
     print(f"PDF has been generated: {output_pdf}")
