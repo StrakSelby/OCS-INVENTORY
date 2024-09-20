@@ -10,10 +10,10 @@ from email.mime.application import MIMEApplication
 
 subject = 'Inventory Report'
 body = 'Testing report sending using email'
-sender_email = 'vannaboth90@gmail.com'
-reciever_email = 'vannaboth100@gmail.com'
-sender_password = 'idfm mvzl fvum vjix '
-smtp_server = 'vannaboth100@gmail.com'
+sender_email = ''
+reciever_email = ''
+sender_password = ''
+smtp_server = ''
 smtp_port = 465
 path_to_directory = '/home/vannaboth/OCS-INVENTORY/Python/pdf_output'
 
