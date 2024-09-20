@@ -12,8 +12,8 @@ subject = 'Inventory Report'
 body = 'Testing report sending using email'
 sender_email = ''
 reciever_email = ''
-sender_password = ''
-smtp_server = ''
+sender_password = '' #app password need 2 factors auythentication to make one 
+smtp_server = 'smtp.gmail.com'
 smtp_port = 465
 path_to_directory = '/home/vannaboth/OCS-INVENTORY/Python/pdf_output'
 
@@ -26,7 +26,7 @@ body_part = MIMEText(body)
 message.attach(body_part)
 
 for filename in os.listdir(path_to_directory):
-        if filename.endswith('pdf'):
+        if filename.endswith('.pdf'):
            file_path = os.path.join(path_to_directory, filename)
            with open(file_path,'rb') as file:
                 message.attach(MIMEApplication(file.read(), Name=filename))
